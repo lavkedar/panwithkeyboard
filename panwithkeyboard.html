@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panning SVG with viewBox</title>
+    <style>
+      svg {
+        background-color: lightblue;
+        margin: 0px auto;
+        display: block;
+      }
+    </style>
+    <!-- Include the SVG.js library from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.0.11/svg.min.js"></script>
+  </head>
+  <body>
+    <!-- Inline script to create the SVG element and red circle -->
+    <script>
+      // Create an SVG container that covers the entire body
+      const draw = SVG().addTo("body").size("600px", "600px");
+
+      // Create a group to hold all elements, including the circle
+      const group = draw.group();
+
+      // Create a red circle in the middle with a radius of 50
+      const circle = group.circle(100).center("50%", "50%").fill("red");
+
+      // Set the initial viewBox to control the viewport
+      draw.viewbox(0, 0, 600, 600); // Adjust the dimensions as needed
+
+      // Event listener for arrow key presses to pan the SVG using viewBox
+      document.addEventListener("keydown", (event) => {
+        const step = 100; // Amount to move in pixels
+        let viewBox = draw.viewbox();
+        switch (event.key) {
+          case "ArrowUp":
+            viewBox.y += step;
+            break;
+          case "ArrowDown":
+            viewBox.y -= step;
+            break;
+          case "ArrowLeft":
+            viewBox.x += step;
+            break;
+          case "ArrowRight":
+            viewBox.x -= step;
+            break;
+        }
+        draw.viewbox(viewBox);
+      });
+    </script>
+  </body>
+</html>
